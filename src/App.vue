@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="row no-gutters">
+      <div class="col-12 header text-center">
+        <h2>Vue CommentBox</h2>
+      </div>
     </div>
     <router-view />
   </div>
@@ -10,22 +11,18 @@
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
-#nav {
+.header {
+  background: #314753;
+  color:#fff !important;
+  text-align: center;
   padding: 30px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.btn{
+  color:#405d6d !important;
 }
 </style>

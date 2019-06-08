@@ -1,18 +1,26 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="row no-gutters justify-content-center">
+    <div class="col-12 col-md-6">
+      <CommentForm />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import CommentForm from '@/components/CommentForm.vue'
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    HelloWorld
+    CommentForm
   }
-};
+}
 </script>
+
+<style>
+body {
+  background: #ccc !important;
+}
+
+</style>
