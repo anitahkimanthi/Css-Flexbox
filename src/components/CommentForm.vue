@@ -9,7 +9,7 @@
     <!-- comment form -->
     <form>
       <div class="form-group row no-gutters">
-        <label>Leave a comment</label>
+        <label><h3>Leave a comment</h3> </label>
         <textarea
           class="form-control"
           placeholder="Enter your comment here ..."
