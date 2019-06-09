@@ -1,8 +1,8 @@
 <template>
   <div class="messages">
     <div class="card">
-      <div v-bind:key="comment" class="card-body" v-for="(comment,n) in comments"> 
-        <p class="card-text" >{{comment}}</p>
+      <div v-bind:key="comment" class="card-body" v-for="(comment,n) in comments">
+        <p class="card-text">{{comment}}</p>
         <button type="button" class="btn btn-sm red" @click="deleteComment(n)">
           <font-awesome-icon class="icon" icon="trash-alt"/>Delete
         </button>
@@ -14,9 +14,7 @@
   </div>
 </template>
 <script>
-
 export default {
-
   data() {
     return {
       comments: [],

@@ -8,7 +8,7 @@ import {
   library
 } from '@fortawesome/fontawesome-svg-core'
 import {
-  faReply, faTrashAlt,
+  faReply, faTrashAlt,faUser
 } from '@fortawesome/free-solid-svg-icons'
 import {
   FontAwesomeIcon
@@ -16,6 +16,7 @@ import {
 
 library.add(faReply)
 library.add(faTrashAlt)
+library.add(faUser)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
