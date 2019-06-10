@@ -1,60 +1,76 @@
 <template>
   <div class="content">
     <div class="row">
+      <!-- comments count -->
       <div class="col-12 col-md-3 offset-md-9">
-        <b>{{comments.length}} comments</b>
+        <b>{{ comments.length }} comments</b>
       </div>
     </div>
     <hr>
+
     <!-- comment form -->
     <form>
       <div class="form-group row no-gutters">
-        <label><h3>Leave a comment</h3> </label>
+        <label>
+          <h3>Leave a comment</h3>
+        </label>
         <textarea
           class="form-control"
           placeholder="Enter your comment here ..."
           v-model="newComment"
           @keyup.enter="postComment"
         ></textarea>
-        <button class="btn replybtn" type="submit" @click="postComment">Send</button>
+        <button class="btn replybtn" type="submit" @click="postComment">
+          Send
+        </button>
       </div>
     </form>
     <br>
 
     <!-- sorting by recent -->
     <div class="filter">
-      <filterby/>
+      <sortBy />
     </div>
 
-    <!-- reply and posts -->
+    <!-- comments -->
     <div class="posts">
       <div class="messages">
         <div class="card">
-          <div class="card-body" v-for="(comment, n) in comments" v-bind:key="comment">
+          <div
+            class="card-body"
+            v-for="(comment, index) in comments"
+            v-bind:key="index"
+          >
             <p class="card-text comment">{{ comment }}</p>
-            <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
+            <button
+              type="button"
+              class="btn btn-sm red"
+              @click="deleteComment(index)"
+            >
               <font-awesome-icon class="icon" icon="trash-alt"/>Delete
             </button>
 
             <button type="button" class="btn btn-sm" @click="toogleReply">
               <font-awesome-icon class="icon" icon="reply"/>
-              Reply {{replies.length}}
+              Reply {{ replies.length }}
             </button>
           </div>
         </div>
       </div>
 
-      <!-- reply comment box -->
+      <!-- replies-->
 
       <div class="reply">
         <div class="col-11 offset-md-1">
-          <div class="card" v-for="(reply, n) in replies" v-bind:key="reply">
+          <div class="card" v-for="reply in replies" v-bind:key="reply">
             <div class="card-body">
-              <p class="card-text">
-                {{reply}}
-              </p>
-              <button type="button" class="btn btn-sm" @click="deleteReply(index)">
-                <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+              <p class="card-text">{{ reply }}</p>
+              <button
+                type="button"
+                class="btn btn-sm"
+                @click="deleteReply(index)"
+              >
+                <font-awesome-icon class="icon" icon="trash-alt" />Delete
               </button>
             </div>
           </div>
@@ -62,7 +78,7 @@
       </div>
       <!-- reply to the comment end -->
 
-      <!-- message in put for reply -->
+      <!-- reply box-->
       <form class="col-6 offset-md-1" v-show="OpenReply">
         <div class="form-group row no-gutters">
           <textarea
@@ -71,28 +87,38 @@
             @keyup.enter="postReply"
             v-model="newReply"
           ></textarea>
-          <button class="btn post" type="submit" @click="postReply">Post</button>
+          <button class="btn post" type="submit" @click="postReply">
+            Post
+          </button>
         </div>
       </form>
     </div>
     <hr>
-    <div class="col-12 col-md-3 offset-md-9" @click="undo()" :disabled="!canUndo">Undo changes</div>
+
+    <!-- undo the changes -->
+    <div
+      class="col-12 col-md-3 offset-md-9"
+      @click="undo()"
+      :disabled="!canUndo"
+    >
+      Undo changes
+    </div>
   </div>
 </template>
 
 <script>
-import filterby from '@/components/filterby.vue'
+import sortBy from '@/components/sortBy.vue'
 
 export default {
   name: 'home',
   components: {
-    filterby
+    sortBy
   },
 
   data() {
     return {
-      comments: [{}],
-      replies: [{}],
+      comments: [],
+      replies: [],
       newComment: null,
       OpenReply: false,
       newReply: null

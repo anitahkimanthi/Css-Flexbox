@@ -1,19 +1,22 @@
 <template>
   <div class="row no-gutters justify-content-center">
     <div class="col-12 col-md-6">
-      <CommentForm />
+      <!-- <parentWrapper/> -->
+      <commentBox/>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import CommentForm from '@/components/CommentForm.vue'
+// import parentWrapper from '@/components/parentWrapper.vue'
+import commentBox from '@/components/commentBox.vue'
 
 export default {
   name: 'home',
   components: {
-    CommentForm
+    // parentWrapper,
+    commentBox
   }
 }
 </script>
@@ -22,5 +25,4 @@ export default {
 body {
   background: #ccc !important;
 }
-
 </style>
