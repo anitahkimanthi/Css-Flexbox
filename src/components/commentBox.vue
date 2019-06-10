@@ -3,7 +3,7 @@
     <div class="row">
       <!-- comments count -->
       <div class="col-12 col-md-3 offset-md-9">
-        <b>{{ comments.length }} comments</b>
+        <b><font-awesome-icon class="icon" icon="comments" />{{ comments.length }} comments</b>
       </div>
     </div>
     <hr>
@@ -47,11 +47,15 @@
               class="btn btn-sm red"
               @click="deleteComment(index)"
             >
-              <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+              <font-awesome-icon class="icon" icon="trash-alt" />Delete
             </button>
 
-            <button type="button" class="btn btn-sm" @click="toogleReply">
-              <font-awesome-icon class="icon" icon="reply"/>
+            <button
+              type="button"
+              class="btn btn-sm"
+              @click="toogleReply(index)"
+            >
+              <font-awesome-icon class="icon" icon="reply" />
               Reply {{ replies.length }}
             </button>
           </div>
@@ -62,9 +66,13 @@
 
       <div class="reply">
         <div class="col-11 offset-md-1">
-          <div class="card" v-for="reply in replies" v-bind:key="reply">
+          <div
+            class="card"
+            v-for="(reply, index) in replies"
+            v-bind:key="index"
+          >
             <div class="card-body">
-              <p class="card-text">{{ reply }}</p>
+              <p class="card-text">{{ reply }} {{ index }}</p>
               <button
                 type="button"
                 class="btn btn-sm"
@@ -185,7 +193,7 @@ export default {
       localStorage.setItem('replies', parsed)
     },
 
-    toogleReply() {
+    toogleReply(index) {
       this.OpenReply = !this.OpenReply
     }
   }
