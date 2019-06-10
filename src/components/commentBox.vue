@@ -2,9 +2,9 @@
   <div class="content">
     <div class="row">
       <!-- comments count -->
-    
+
       <div class="col-12 col-md-3 offset-md-9">
-        <font-awesome-icon class="icon" icon="comments" v-model="allComments" /> 
+        <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
         {{ comments.length}} Comments
       </div>
     </div>
@@ -36,18 +36,10 @@
     <div class="posts">
       <div class="messages">
         <div class="card">
-          <div
-            class="card-body"
-            v-for="(comment, index) in comments"
-            v-bind:key="index"
-          >
-            <p class="card-text comment">{{ comment }}</p>
-            <button
-              type="button"
-              class="btn btn-sm red"
-              @click="deleteComment(index)"
-            >
-              <font-awesome-icon class="icon" icon="trash-alt" />Delete
+          <div class="card-body" v-for="(comment, index) in comments" v-bind:key="index">
+            <p class="card-text comment">{{ comment.message }}</p>
+            <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
+              <font-awesome-icon class="icon" icon="trash-alt"/>Delete
             </button>
 
             <button
@@ -65,29 +57,17 @@
         </div>
 
         <div class="col-11 offset-md-1" else v-show="OpenReply">
-          <div
-            class="card"
-            v-for="(reply, index) in replies"
-            v-bind:key="index"
-          >
+          <div class="card" v-for="(reply, index) in replies" v-bind:key="index">
             <div class="card-body">
-              <p class="card-text">{{ reply }}</p>
-              <button
-                type="button"
-                class="btn btn-sm"
-                @click="deleteReply(index, 1)"
-              >
+              <p class="card-text">{{ reply.message }}</p>
+              <button type="button" class="btn btn-sm" @click="deleteReply(index, 1)">
                 <font-awesome-icon class="icon" icon="trash-alt"/>Delete
               </button>
             </div>
           </div>
           <form class="card-body">
             <div class="form-group row no-gutters">
-              <textarea
-                class="form-control"
-                placeholder="Reply here ..."
-                v-model="newReply"
-              ></textarea>
+              <textarea class="form-control" placeholder="Reply here ..." v-model="newReply"></textarea>
               <button class="btn post" type="submit" @click="postReply">Post</button>
             </div>
           </form>
@@ -120,10 +100,10 @@ export default {
   data() {
     return {
       comments: [],
+      newCommentId: 0,
       replies: [],
-      newComment: null,
-      OpenReply: false,
-      newReply: null
+      newReplyId: 0,
+      OpenReply: false
     }
   },
 
@@ -142,20 +122,21 @@ export default {
         localStorage.AddItem('replies')
       }
     }
-    if (this.comments.length) {
-      this.comment = this.comments[0];
-    }
+
   },
 
   methods: {
-    
     // commentbox methods and daata storage
     postComment() {
       if (!this.newComment) {
         return
       }
 
-      this.comments.push(this.newComment)
+      this.comments.push({
+        id: this.newCommentId++,
+        message: this.newComment,
+        reply: this.postReply
+      })
       this.newComment = ''
       this.saveComments()
     },
@@ -176,7 +157,10 @@ export default {
       if (!this.newReply) {
         return
       }
-      this.replies.push(this.newReply)
+      this.replies.push({
+        id: this.newReplyId++,
+        message: this.newReply
+      })
       this.newReply = ''
       this.saveReply()
     },
@@ -192,13 +176,12 @@ export default {
     },
 
     toogleReply(index) {
-      this.OpenReply = !this.OpenReply,
-       this.activeIndex = index
+      ;(this.OpenReply = !this.OpenReply), (this.activeIndex = index)
     },
 
-    allComments(){
-          return parseInt(this.comments.length) + parseInt(this.replies.length);
-    },
+    allComments() {
+      return parseInt(this.comments.length) + parseInt(this.replies.length)
+    }
   }
 }
 </script>
@@ -212,12 +195,12 @@ export default {
 }
 .active {
   font-weight: 700 !important;
-  color:#47B6CF !important;
+  color: #47b6cf !important;
 }
 .replybtn {
   padding: 10px;
   width: 100%;
-  background: #47B6CF !important;
+  background: #47b6cf !important;
   color: #fff !important;
   float: right;
   margin-top: 10px;
@@ -232,10 +215,10 @@ textarea {
   margin-right: 10px !important;
 }
 .post {
-  background: #47B6CF !important;
+  background: #47b6cf !important;
   width: 100%;
   color: #fff !important;
   margin-top: 20px;
 }
-button:focus { outline: none !important; border:none !important }
+
 </style>
