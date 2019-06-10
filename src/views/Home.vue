@@ -23,6 +23,6 @@ export default {
 
 <style>
 body {
-  background: #ccc !important;
+  background: #f7f7f7 !important;
 }
 </style>

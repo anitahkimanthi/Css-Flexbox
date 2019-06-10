@@ -2,14 +2,16 @@
   <div class="content">
     <div class="row">
       <!-- comments count -->
+    
       <div class="col-12 col-md-3 offset-md-9">
-        <b><font-awesome-icon class="icon" icon="comments" />{{ comments.length }} comments</b>
+        <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
+        {{ comments.length}}
       </div>
     </div>
     <hr>
 
     <!-- comment form -->
-    <form>
+    <form method="POST" v-on:submit.prevent="postComment">
       <div class="form-group row no-gutters">
         <label>
           <h3>Leave a comment</h3>
@@ -20,97 +22,62 @@
           v-model="newComment"
           @keyup.enter="postComment"
         ></textarea>
-        <button class="btn replybtn" type="submit" @click="postComment">
-          Send
-        </button>
+        <button class="btn replybtn" type="submit" @click="postComment">Send</button>
       </div>
     </form>
     <br>
 
     <!-- sorting by recent -->
     <div class="filter">
-      <sortBy />
+      <sortBy/>
     </div>
 
     <!-- comments -->
     <div class="posts">
       <div class="messages">
         <div class="card">
-          <div
-            class="card-body"
-            v-for="(comment, index) in comments"
-            v-bind:key="index"
-          >
+          <div class="card-body"  v-for="(comment, index) in comments" v-bind:key="index">
             <p class="card-text comment">{{ comment }}</p>
-            <button
-              type="button"
-              class="btn btn-sm red"
-              @click="deleteComment(index)"
-            >
-              <font-awesome-icon class="icon" icon="trash-alt" />Delete
+            <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
+              <font-awesome-icon class="icon" icon="trash-alt"/>Delete
             </button>
 
-            <button
-              type="button"
-              class="btn btn-sm"
-              @click="toogleReply(index)"
-            >
-              <font-awesome-icon class="icon" icon="reply" />
+            <button type="button" class="btn btn-sm" :class="{ 'active': activeIndex === index}"  @click="toogleReply(index)" :key="index">
+              <font-awesome-icon class="icon" icon="reply"/>
               Reply {{ replies.length }}
             </button>
           </div>
+        </div>
+
+        <div class="col-11 offset-md-1" v-show="OpenReply">
+          <div class="card" v-for="(reply, index) in replies" v-bind:key="index">
+            <div class="card-body">
+              <p class="card-text">{{ reply }}</p>
+              <button type="button" class="btn btn-sm" @click="deleteReply(index, 1)">
+                <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+              </button>
+            </div>
+          </div>
+          <form class="card-body">
+            <div class="form-group row no-gutters">
+              <textarea class="form-control" placeholder="Reply here ..." v-model="newReply"></textarea>
+              <button class="btn post" type="submit" @click="postReply">Post</button>
+            </div>
+          </form>
         </div>
       </div>
 
       <!-- replies-->
 
-      <div class="reply">
-        <div class="col-11 offset-md-1">
-          <div
-            class="card"
-            v-for="(reply, index) in replies"
-            v-bind:key="index"
-          >
-            <div class="card-body">
-              <p class="card-text">{{ reply }} {{ index }}</p>
-              <button
-                type="button"
-                class="btn btn-sm"
-                @click="deleteReply(index)"
-              >
-                <font-awesome-icon class="icon" icon="trash-alt" />Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="reply"></div>
       <!-- reply to the comment end -->
 
       <!-- reply box-->
-      <form class="col-6 offset-md-1" v-show="OpenReply">
-        <div class="form-group row no-gutters">
-          <textarea
-            class="form-control"
-            placeholder="Reply here ..."
-            @keyup.enter="postReply"
-            v-model="newReply"
-          ></textarea>
-          <button class="btn post" type="submit" @click="postReply">
-            Post
-          </button>
-        </div>
-      </form>
     </div>
     <hr>
 
     <!-- undo the changes -->
-    <div
-      class="col-12 col-md-3 offset-md-9"
-      @click="undo()"
-      :disabled="!canUndo"
-    >
-      Undo changes
-    </div>
+    <div class="col-12 col-md-3 offset-md-9" @click="undo()" :disabled="!canUndo">Undo changes</div>
   </div>
 </template>
 
@@ -148,9 +115,13 @@ export default {
         localStorage.AddItem('replies')
       }
     }
+    if (this.comments.length) {
+      this.comment = this.comments[0];
+    }
   },
 
   methods: {
+    
     // commentbox methods and daata storage
     postComment() {
       if (!this.newComment) {
@@ -194,8 +165,13 @@ export default {
     },
 
     toogleReply(index) {
-      this.OpenReply = !this.OpenReply
-    }
+      this.OpenReply = !this.OpenReply,
+       this.activeIndex = index
+    },
+
+    allComments(){
+          return parseInt(this.comments.length) + parseInt(this.replies.length);
+    },
   }
 }
 </script>
@@ -207,10 +183,14 @@ export default {
   margin-top: 40px;
   padding: 30px;
 }
+.active {
+  font-weight: 700 !important;
+  color:#47B6CF !important;
+}
 .replybtn {
   padding: 10px;
   width: 100%;
-  background: #314753 !important;
+  background: #47B6CF !important;
   color: #fff !important;
   float: right;
   margin-top: 10px;
@@ -225,7 +205,7 @@ textarea {
   margin-right: 10px !important;
 }
 .post {
-  background: #314753 !important;
+  background: #47B6CF !important;
   width: 100%;
   color: #fff !important;
   margin-top: 20px;
