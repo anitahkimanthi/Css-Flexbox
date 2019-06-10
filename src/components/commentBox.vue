@@ -4,8 +4,8 @@
       <!-- comments count -->
     
       <div class="col-12 col-md-3 offset-md-9">
-        <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
-        {{ comments.length}}
+        <font-awesome-icon class="icon" icon="comments" v-model="allComments" /> 
+        {{ comments.length}} Comments
       </div>
     </div>
     <hr>
@@ -36,31 +36,58 @@
     <div class="posts">
       <div class="messages">
         <div class="card">
-          <div class="card-body"  v-for="(comment, index) in comments" v-bind:key="index">
+          <div
+            class="card-body"
+            v-for="(comment, index) in comments"
+            v-bind:key="index"
+          >
             <p class="card-text comment">{{ comment }}</p>
-            <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
-              <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+            <button
+              type="button"
+              class="btn btn-sm red"
+              @click="deleteComment(index)"
+            >
+              <font-awesome-icon class="icon" icon="trash-alt" />Delete
             </button>
 
-            <button type="button" class="btn btn-sm" :class="{ 'active': activeIndex === index}"  @click="toogleReply(index)" :key="index">
+            <button
+              type="button"
+              class="btn btn-sm"
+              v-if="{ active: activeIndex === index }"
+              :class="{ active: activeIndex === index }"
+              @click="toogleReply(index)"
+              :key="index"
+            >
               <font-awesome-icon class="icon" icon="reply"/>
               Reply {{ replies.length }}
             </button>
           </div>
         </div>
 
-        <div class="col-11 offset-md-1" v-show="OpenReply">
-          <div class="card" v-for="(reply, index) in replies" v-bind:key="index">
+        <div class="col-11 offset-md-1" else v-show="OpenReply">
+          <div
+            class="card"
+            v-for="(reply, index) in replies"
+            v-bind:key="index"
+          >
             <div class="card-body">
               <p class="card-text">{{ reply }}</p>
-              <button type="button" class="btn btn-sm" @click="deleteReply(index, 1)">
+              <button
+                type="button"
+                class="btn btn-sm"
+                @click="deleteReply(index, 1)"
+              >
                 <font-awesome-icon class="icon" icon="trash-alt"/>Delete
               </button>
             </div>
           </div>
           <form class="card-body">
             <div class="form-group row no-gutters">
-              <textarea class="form-control" placeholder="Reply here ..." v-model="newReply"></textarea>
+              <textarea
+                class="form-control"
+                placeholder="Reply here ..."
+                v-model="newReply"
+              ></textarea>
               <button class="btn post" type="submit" @click="postReply">Post</button>
             </div>
           </form>
@@ -210,4 +237,5 @@ textarea {
   color: #fff !important;
   margin-top: 20px;
 }
+button:focus { outline: none !important; border:none !important }
 </style>
