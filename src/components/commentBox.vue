@@ -35,16 +35,9 @@
         <font-awesome-icon
           class="icon sorticon"
           icon="angle-down"
-          v-if="reverse"
-          key="expand_more"
+          :key="expand_more"
           @click="reverse"
         />
-        <font-awesome-icon 
-        class="icon sorticon" 
-        icon="angle-up"
-        v-else
-        key="expand_less"
-        @click="reverse"/>
       </button>
     </div>
     <br>
@@ -53,7 +46,7 @@
       <div class="messages">
         <div class="card">
           <div class="card-body" v-for="(comment, index) in comments" v-bind:key="index">
-            <p class="card-text comment">{{ comment.message }}</p>
+            <p class="card-text comment"><b>person {{comment.person}}</b> <br/> <br/>{{ comment.message }}</p>
             <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
               <font-awesome-icon class="icon" icon="trash-alt"/>Delete
             </button>
@@ -110,7 +103,6 @@
 
 export default {
   name: 'home',
-  props: "expandAll",
   components: {
     // sortBy
   },
@@ -119,6 +111,7 @@ export default {
     return {
       comments: [],
       newCommentId: 0,
+      person:1,
       replies: [],
       newReplyId: 0,
       OpenReply: false
@@ -154,6 +147,7 @@ export default {
 
       this.comments.push({
         id: this.newCommentId++,
+        person: this.person++,
         message: this.newComment
       })
       this.newComment = ''
