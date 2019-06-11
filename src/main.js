@@ -9,7 +9,9 @@ import {
   faReply,
   faTrashAlt,
   faUser,
-  faComments
+  faComments,
+  faAngleUp,
+  faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -17,6 +19,8 @@ library.add(faReply)
 library.add(faTrashAlt)
 library.add(faUser)
 library.add(faComments)
+library.add(faAngleDown)
+library.add(faAngleUp)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

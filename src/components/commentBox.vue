@@ -30,7 +30,22 @@
     <!-- sorting by recent -->
     <div class="filter">
       <!-- <sortBy /> -->
-      <button class="btn btn-sm sort" @click="reverse">sort by latest</button>
+      <button class="btn btn-sm sort" @click="reverse">
+        sort by latest
+        <font-awesome-icon
+          class="icon sorticon"
+          icon="angle-down"
+          v-if="reverse"
+          key="expand_more"
+          @click="reverse"
+        />
+        <font-awesome-icon 
+        class="icon sorticon" 
+        icon="angle-up"
+        v-else
+        key="expand_less"
+        @click="reverse"/>
+      </button>
     </div>
     <br>
     <!-- comments and replies-->
@@ -95,6 +110,7 @@
 
 export default {
   name: 'home',
+  props: "expandAll",
   components: {
     // sortBy
   },
@@ -226,5 +242,8 @@ textarea {
 .sort {
   border: 1px solid #ccc !important;
   margin-left: 20px;
+}
+.sorticon {
+  margin-left: 10px;
 }
 </style>
