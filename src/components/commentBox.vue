@@ -5,7 +5,7 @@
 
       <div class="col-12 col-md-3 offset-md-9">
         <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
-        {{ comments.length }} Comments
+         Comments ({{ comments.length }})
       </div>
     </div>
     <hr>
