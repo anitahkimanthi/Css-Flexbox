@@ -5,13 +5,13 @@
 
       <div class="col-12 col-md-3 offset-md-9">
         <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
-        {{ comments.length}} Comments
+        {{ comments.length }} Comments
       </div>
     </div>
     <hr>
 
     <!-- comment form -->
-    <form method="POST" v-on:submit.prevent="postComment">
+    <form @submit.prevent="submit">
       <div class="form-group row no-gutters">
         <label>
           <h3>Leave a comment</h3>
@@ -29,10 +29,11 @@
 
     <!-- sorting by recent -->
     <div class="filter">
-      <sortBy/>
+      <!-- <sortBy /> -->
+      <button class="btn btn-sm sort" @click="reverse">sort by latest</button>
     </div>
-
-    <!-- comments -->
+    <br>
+    <!-- comments and replies-->
     <div class="posts">
       <div class="messages">
         <div class="card">
@@ -47,25 +48,26 @@
               class="btn btn-sm"
               v-if="{ active: activeIndex === index }"
               :class="{ active: activeIndex === index }"
-              @click="toogleReply(index)"
+              @click="toogleReply(index,1)"
               :key="index"
             >
-              <font-awesome-icon class="icon" icon="reply"/>
-              Reply {{ replies.length }}
+              <font-awesome-icon class="icon" icon="reply" else/>
+              Reply {{ replies.length }} {{ date | formatDate 'YY-MM-DD' timeZone }}
             </button>
           </div>
         </div>
 
-        <div class="col-11 offset-md-1" else v-show="OpenReply">
+        <!-- reply to comments -->
+        <div class="col-11 offset-md-1" v-show="OpenReply">
           <div class="card" v-for="(reply, index) in replies" v-bind:key="index">
             <div class="card-body">
               <p class="card-text">{{ reply.message }}</p>
-              <button type="button" class="btn btn-sm" @click="deleteReply(index, 1)">
+              <button type="button" class="btn btn-sm" @click="deleteReply(index)">
                 <font-awesome-icon class="icon" icon="trash-alt"/>Delete
               </button>
             </div>
           </div>
-          <form class="card-body">
+          <form @submit.prevent="submit" class="card-body">
             <div class="form-group row no-gutters">
               <textarea class="form-control" placeholder="Reply here ..." v-model="newReply"></textarea>
               <button class="btn post" type="submit" @click="postReply">Post</button>
@@ -89,12 +91,12 @@
 </template>
 
 <script>
-import sortBy from '@/components/sortBy.vue'
+// import sortBy from '@/components/sortBy.vue'
 
 export default {
   name: 'home',
   components: {
-    sortBy
+    // sortBy
   },
 
   data() {
@@ -122,10 +124,12 @@ export default {
         localStorage.AddItem('replies')
       }
     }
-
   },
 
   methods: {
+    reverse() {
+      this.comments.reverse()
+    },
     // commentbox methods and daata storage
     postComment() {
       if (!this.newComment) {
@@ -134,8 +138,7 @@ export default {
 
       this.comments.push({
         id: this.newCommentId++,
-        message: this.newComment,
-        reply: this.postReply
+        message: this.newComment
       })
       this.newComment = ''
       this.saveComments()
@@ -220,5 +223,8 @@ textarea {
   color: #fff !important;
   margin-top: 20px;
 }
-
+.sort {
+  border: 1px solid #ccc !important;
+  margin-left: 20px;
+}
 </style>
