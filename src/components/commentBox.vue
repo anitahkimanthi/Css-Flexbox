@@ -4,7 +4,7 @@
       <!-- comments count -->
 
       <div class="col-12 col-md-3 offset-md-9">
-        <font-awesome-icon class="icon" icon="comments" v-model="allComments"/>
+        <font-awesome-icon icon="comments" v-model="allComments"/>
          Comments ({{ comments.length }})
       </div>
     </div>
@@ -51,7 +51,7 @@
             v-bind:key="index"
           >
             <p class="card-text comment">
-              <b>person {{ comment.person }}</b>  - <span class="time" >{{ comment.datatime }}</span> <br />
+              <b>person {{ comment.person }}</b>  - <span class="time" >{{ comment.datetime }}</span> <br />
               <br />{{ comment.message }}
             </p>
             <button
@@ -59,7 +59,7 @@
               class="btn btn-sm red"
               @click="deleteComment(index)"
             >
-              <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+              <font-awesome-icon class="icon" icon="trash-alt"/><span>Delete</span> 
             </button>
 
             <button
@@ -67,17 +67,19 @@
               class="btn btn-sm"
               v-if="{ active: activeIndex === index }"
               :class="{ active: activeIndex === index }"
-              @click="toogleReply(id)"
+              @click="toogleReply(index)"
               :key="index"
             >
               <font-awesome-icon class="icon" icon="reply" else/>
-              Reply {{ replies.length }}
+              <span>Reply {{ replies.length }}</span>
             </button>
+            <hr>
           </div>
         </div>
 
         <!-- reply to comments -->
         <div class="col-11 offset-md-1" v-show="OpenReply">
+
           <div
             class="card"
             v-for="(reply, index) in replies"
@@ -90,10 +92,11 @@
                 class="btn btn-sm"
                 @click="deleteReply(index)"
               >
-                <font-awesome-icon class="icon" icon="trash-alt"/>Delete
+                <font-awesome-icon class="icon" icon="trash-alt"/> <span>Delete</span>
               </button>
             </div>
           </div>
+          <br>
           <form  v-on:submit.prevent="onSubmit" class="card-body">
             <div class="form-group row no-gutters">
               <textarea
@@ -106,15 +109,7 @@
           </form>
         </div>
       </div>
-
-      <!-- replies-->
-
-      <div class="reply"></div>
-      <!-- reply to the comment end -->
-
-      <!-- reply box-->
     </div>
-    <hr>
 
     <!-- undo the changes -->
     <div
@@ -238,7 +233,7 @@ export default {
   padding: 30px;
 }
 .active {
-  font-weight: 700 !important;
+  font-weight: 900 !important;
   color: #47b6cf !important;
 }
 .replybtn {
@@ -257,6 +252,8 @@ textarea {
 }
 .icon {
   margin-right: 10px !important;
+  font-size: 11px;
+  color: #8f8d8d;
 }
 .post {
   background: #47b6cf !important;
@@ -266,9 +263,18 @@ textarea {
 }
 .sort {
   border: 1px solid #ccc !important;
-  margin-left: 20px;
 }
 .sorticon {
   margin-left: 10px;
+}
+span {
+  font-size: 11px;
+  color: #8f8d8d;
+}
+.comment{
+  font-size: 14px;
+}
+.card-body{
+  padding:0 !important;
 }
 </style>
