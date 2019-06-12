@@ -11,7 +11,7 @@
     <hr>
 
     <!-- comment form -->
-    <form @submit.prevent="submit">
+    <form  v-on:submit.prevent="onSubmit">
       <div class="form-group row no-gutters">
         <label>
           <h3>Leave a comment</h3>
@@ -45,9 +45,20 @@
     <div class="posts">
       <div class="messages">
         <div class="card">
-          <div class="card-body" v-for="(comment, index) in comments" v-bind:key="index">
-            <p class="card-text comment"><b>person {{comment.person}}</b> <br/> <br/>{{ comment.message }}</p>
-            <button type="button" class="btn btn-sm red" @click="deleteComment(index)">
+          <div
+            class="card-body"
+            v-for="(comment, index) in comments"
+            v-bind:key="index"
+          >
+            <p class="card-text comment">
+              <b>person {{ comment.person }}</b>  - <span class="time" >{{ comment.datatime }}</span> <br />
+              <br />{{ comment.message }}
+            </p>
+            <button
+              type="button"
+              class="btn btn-sm red"
+              @click="deleteComment(index)"
+            >
               <font-awesome-icon class="icon" icon="trash-alt"/>Delete
             </button>
 
@@ -56,29 +67,41 @@
               class="btn btn-sm"
               v-if="{ active: activeIndex === index }"
               :class="{ active: activeIndex === index }"
-              @click="toogleReply(index,1)"
+              @click="toogleReply(id)"
               :key="index"
             >
               <font-awesome-icon class="icon" icon="reply" else/>
-              Reply {{ replies.length }} {{ date | formatDate 'YY-MM-DD' timeZone }}
+              Reply {{ replies.length }}
             </button>
           </div>
         </div>
 
         <!-- reply to comments -->
         <div class="col-11 offset-md-1" v-show="OpenReply">
-          <div class="card" v-for="(reply, index) in replies" v-bind:key="index">
+          <div
+            class="card"
+            v-for="(reply, index) in replies"
+            v-bind:key="index"
+          >
             <div class="card-body">
               <p class="card-text">{{ reply.message }}</p>
-              <button type="button" class="btn btn-sm" @click="deleteReply(index)">
+              <button
+                type="button"
+                class="btn btn-sm"
+                @click="deleteReply(index)"
+              >
                 <font-awesome-icon class="icon" icon="trash-alt"/>Delete
               </button>
             </div>
           </div>
-          <form @submit.prevent="submit" class="card-body">
+          <form  v-on:submit.prevent="onSubmit" class="card-body">
             <div class="form-group row no-gutters">
-              <textarea class="form-control" placeholder="Reply here ..." v-model="newReply"></textarea>
-              <button class="btn post" type="submit" @click="postReply">Post</button>
+              <textarea
+                class="form-control"
+                placeholder="Reply here ..."
+                v-model="newReply"
+              ></textarea>
+              <button class="btn post" type="submit" @click="postReply">Reply</button>
             </div>
           </form>
         </div>
@@ -94,7 +117,13 @@
     <hr>
 
     <!-- undo the changes -->
-    <div class="col-12 col-md-3 offset-md-9" @click="undo()" :disabled="!canUndo">Undo changes</div>
+    <div
+      class="col-12 col-md-3 offset-md-9"
+      @click="undo()"
+      :disabled="!canUndo"
+    >
+      Undo changes
+    </div>
   </div>
 </template>
 
@@ -110,11 +139,12 @@ export default {
   data() {
     return {
       comments: [],
-      newCommentId: 0,
+      newCommentId: 1,
       person:1,
       replies: [],
-      newReplyId: 0,
-      OpenReply: false
+      newReplyId: 1,
+      OpenReply: false,
+      datatime:null
     }
   },
 
@@ -147,8 +177,9 @@ export default {
 
       this.comments.push({
         id: this.newCommentId++,
+        message: this.newComment,
         person: this.person++,
-        message: this.newComment
+        datetime: this.datatime = Date(),
       })
       this.newComment = ''
       this.saveComments()
