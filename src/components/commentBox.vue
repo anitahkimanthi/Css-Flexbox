@@ -174,7 +174,7 @@ export default {
         id: this.newCommentId++,
         message: this.newComment,
         person: this.person++,
-        datetime: this.datatime = Date(),
+        datetime: this.datatime = Date().format()
       })
       this.newComment = ''
       this.saveComments()
